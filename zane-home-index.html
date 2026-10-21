@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>兴兴的小站 · Zane Li</title>
+<meta name="description" content="Zane Li（兴兴）的个人主页：nezone 观影、中国象棋和一些自己折腾的小玩意儿。">
+<style>
+  :root{
+    --ink:#efecf5;
+    --ink-dim:rgba(239,236,245,.56);
+    --ink-faint:rgba(239,236,245,.36);
+    --line:rgba(255,255,255,.08);
+    --line-strong:rgba(255,255,255,.15);
+    --gold:rgba(214,201,168,.85);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;
+    color:var(--ink); min-height:100vh; overflow-x:hidden; background:#09090e;
+    -webkit-font-smoothing:antialiased;
+  }
+  /* 底：近黑，一缕极淡的紫，只为衬玻璃 */
+  .bg{position:fixed; inset:0; z-index:-1; overflow:hidden; background:#09090e}
+  .blob{position:absolute; border-radius:50%; filter:blur(80px); will-change:transform}
+  .b1{width:66vw;height:66vw;left:-20vw;top:-22vw;background:#3d3663;opacity:.42;animation:drift1 30s ease-in-out infinite alternate}
+  .b2{width:52vw;height:52vw;right:-18vw;top:36vh;background:#22303f;opacity:.42;animation:drift2 36s ease-in-out infinite alternate}
+  @keyframes drift1{to{transform:translate(5vw,4vh) scale(1.06)}}
+  @keyframes drift2{to{transform:translate(-5vw,6vh) scale(.95)}}
+  .bg::after{content:""; position:absolute; inset:0;
+    background:radial-gradient(115% 100% at 50% 38%, transparent 50%, rgba(0,0,0,.6)),
+               radial-gradient(rgba(255,255,255,.028) 1px, transparent 1px); background-size:auto, 26px 26px}
+
+  .wrap{max-width:600px; margin:0 auto; padding:72px 26px 128px}
+
+  .label{font-size:10px; letter-spacing:.5em; text-transform:uppercase; color:var(--ink-faint); font-weight:600}
+  .serif{font-family:"Songti SC","STSong",Georgia,"Times New Roman",serif}
+  .num-serif{font-family:Georgia,"Times New Roman",serif; font-style:italic}
+
+  /* 玻璃：更透、更薄，只剩质感 */
+  .glass{
+    position:relative;
+    background:linear-gradient(158deg, rgba(255,255,255,.085), rgba(255,255,255,.022) 48%, rgba(255,255,255,.042));
+    border:1px solid var(--line-strong);
+    border-radius:22px;
+    backdrop-filter:blur(30px) saturate(145%);
+    -webkit-backdrop-filter:blur(30px) saturate(145%);
+    box-shadow:0 34px 70px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.22), inset 0 -16px 28px rgba(255,255,255,.025);
+    overflow:hidden;
+  }
+  .glass::before{content:""; position:absolute; inset:0; pointer-events:none;
+    background:radial-gradient(480px 190px at var(--mx,50%) -70px, rgba(255,255,255,.1), transparent 65%)}
+
+  /* 主面板 */
+  .hero{text-align:center; padding:52px 30px 44px}
+  .hero::after{content:""; position:absolute; top:0; bottom:0; width:120px; left:-160px; pointer-events:none;
+    background:linear-gradient(100deg, transparent, rgba(255,255,255,.055), transparent);
+    animation:sheen 9s ease-in-out infinite}
+  @keyframes sheen{0%,55%{left:-160px}85%,100%{left:110%}}
+  .avatar{
+    width:76px;height:76px;margin:24px auto 22px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:29px; color:var(--ink);
+    border:1px solid rgba(255,255,255,.3);
+    outline:1px solid rgba(255,255,255,.09); outline-offset:6px;
+    background:linear-gradient(160deg, rgba(255,255,255,.11), rgba(255,255,255,.02));
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 16px 34px rgba(0,0,0,.4);
+  }
+  h1{font-size:46px; font-weight:600; letter-spacing:.18em; margin:16px 0 14px; text-indent:.18em}
+  .greet{font-size:12px; letter-spacing:.34em; color:var(--ink-dim); text-indent:.34em}
+  .intro{margin:20px auto 0; max-width:390px; font-size:14.5px; line-height:2.05; color:var(--ink-dim)}
+  .rule{width:46px; height:1px; margin:34px auto 0; background:linear-gradient(90deg, transparent, var(--gold), transparent)}
+  .meta{display:flex; gap:30px; justify-content:center; margin-top:26px; flex-wrap:wrap}
+  .meta span{font-size:11.5px; letter-spacing:.22em; color:var(--ink-faint)}
+
+  .sec{margin-top:68px}
+  .sec-head{display:flex; align-items:baseline; justify-content:space-between; margin-bottom:14px; padding:0 4px}
+  .sec-head .label{color:var(--ink-dim)}
+  .sec-head .no{font-size:12px; color:var(--ink-faint)}
+
+  /* 列表行 */
+  .row{display:flex; align-items:center; gap:18px; padding:23px 24px; text-decoration:none; color:var(--ink);
+    border-top:1px solid var(--line); transition:background .4s ease; position:relative; z-index:1}
+  .row:first-child{border-top:none}
+  @media(hover:hover){ .row:hover{background:rgba(255,255,255,.025)} }
+  .row .num{font-size:12.5px; color:var(--ink-faint); width:24px; flex:none}
+  .row .body{flex:1; min-width:0}
+  .row h3{font-size:16px; font-weight:600; letter-spacing:.06em; margin-bottom:5px}
+  .row p{font-size:12.5px; line-height:1.75; color:var(--ink-dim)}
+  .row .arrow{flex:none; font-size:15px; color:var(--ink-faint); transition:transform .4s ease, color .4s}
+  @media(hover:hover){ .row:hover .arrow{transform:translateX(5px); color:var(--ink)} }
+  .badge{flex:none; font-size:10px; letter-spacing:.18em; padding:6px 11px; border-radius:999px;
+    border:1px solid var(--line-strong); color:var(--ink-dim); background:rgba(255,255,255,.03)}
+  .badge.live{color:#a9e8c8; border-color:rgba(169,232,200,.3)}
+
+  /* 好玩角落 */
+  .fun-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+  .fun{padding:26px 24px}
+  .fun.wide{grid-column:1 / -1}
+  .fun h3{font-size:15px; font-weight:600; letter-spacing:.1em; margin-bottom:9px}
+  .fun .result{font-size:13.5px; line-height:1.85; color:var(--ink-dim); min-height:25px}
+  .bigemoji{font-size:34px; line-height:1.3; margin:4px 0 8px}
+  .act{display:inline-block; margin-top:16px; appearance:none; cursor:pointer; background:none; border:none;
+    color:var(--ink); font-size:12.5px; letter-spacing:.26em; padding:8px 2px;
+    border-bottom:1px solid rgba(255,255,255,.35); transition:border-color .3s, color .3s}
+  .act:active{color:var(--gold); border-color:var(--gold)}
+  @media(hover:hover){ .act:hover{border-color:var(--gold)} }
+
+  .about{font-size:14px; line-height:2.15; color:var(--ink-dim); padding:28px 26px; position:relative; z-index:1}
+  .about b{color:var(--ink); font-weight:600}
+  footer{text-align:center; margin-top:72px}
+  footer .dom{font-size:12px; letter-spacing:.34em; color:var(--ink-dim)}
+  footer .cp{margin-top:12px; font-size:10.5px; letter-spacing:.18em; color:var(--ink-faint)}
+
+  /* 底部导航：文字式玻璃条 */
+  .dock{position:fixed; left:50%; transform:translateX(-50%); bottom:calc(16px + env(safe-area-inset-bottom)); z-index:10;
+    display:flex; align-items:center; gap:4px; padding:9px 14px; border-radius:999px;
+    background:linear-gradient(160deg, rgba(255,255,255,.1), rgba(255,255,255,.03));
+    border:1px solid rgba(255,255,255,.22);
+    backdrop-filter:blur(28px) saturate(150%); -webkit-backdrop-filter:blur(28px) saturate(150%);
+    box-shadow:0 22px 46px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.3)}
+  .dock a{font-size:11.5px; letter-spacing:.24em; text-indent:.24em; color:var(--ink-dim); text-decoration:none;
+    padding:9px 13px; border-radius:999px; transition:color .3s, background .3s; white-space:nowrap}
+  .dock a:active{color:var(--ink); background:rgba(255,255,255,.07)}
+  @media(hover:hover){ .dock a:hover{color:var(--ink)} }
+  .dock .dot{width:3px;height:3px;border-radius:50%;background:rgba(255,255,255,.25); flex:none}
+
+  .reveal{opacity:0; transform:translateY(16px); transition:opacity 1s ease, transform 1s ease}
+  .reveal.in{opacity:1; transform:none}
+</style>
+</head>
+<body>
+<div class="bg"><div class="blob b1"></div><div class="blob b2"></div></div>
+
+<div class="wrap">
+  <!-- 主面板 -->
+  <header class="glass hero" id="top">
+    <div class="label">Zane Li · Personal Site</div>
+    <div class="avatar serif">兴</div>
+    <h1 class="serif">兴兴的小站</h1>
+    <div class="greet" id="greet">欢迎来到</div>
+    <p class="intro">爱折腾的人，把自己做的东西放在这里。<br>不求热闹，但求顺眼。</p>
+    <div class="rule"></div>
+  </header>
+
+  <!-- 项目 -->
+  <section class="sec">
+    <div class="sec-head"><span class="label">Projects · 项目</span><span class="no num-serif">No. 01</span></div>
+    <div class="glass reveal">
+      <a class="row" href="https://lzranbaby.github.io/jelly-view/">
+        <span class="num num-serif">01</span>
+        <div class="body"><h3>nezone 观影</h3><p>自己做的观影软件，电影、剧集、动漫都能看</p></div>
+        <span class="badge live">在线</span><span class="arrow">→</span>
+      </a>
+      <a class="row" href="https://github.com/LzRanbaby/jelly-view/releases/download/latest/nezone.apk">
+        <span class="num num-serif">02</span>
+        <div class="body"><h3>nezone 安卓版</h3><p>安卓安装包，永久同一个下载地址</p></div>
+        <span class="arrow">→</span>
+      </a>
+      <a class="row" href="https://github.com/LzRanbaby">
+        <span class="num num-serif">03</span>
+        <div class="body"><h3>GitHub</h3><p>代码都放在这里，nezone 的仓库也在</p></div>
+        <span class="arrow">→</span>
+      </a>
+      <div class="row">
+        <span class="num num-serif">04</span>
+        <div class="body"><h3>中国象棋</h3><p>带 Pikafish 引擎的人机对战，配教练布局与成就系统</p></div>
+        <span class="badge">10 月 24 日</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 好玩角落 -->
+  <section class="sec" id="fun">
+    <div class="sec-head"><span class="label">Playground · 好玩角落</span><span class="no num-serif">No. 02</span></div>
+    <div class="fun-grid">
+      <div class="glass fun reveal wide">
+        <h3>今日抽签</h3>
+        <p class="result" id="fortuneText">点一下，看看今天适合干啥。</p>
+        <button class="act" id="fortuneBtn" type="button">抽一签 →</button>
+      </div>
+      <div class="glass fun reveal">
+        <h3>投喂小猫</h3>
+        <div class="bigemoji" id="catFace">🐱</div>
+        <p class="result" id="feedText">小猫正在等投喂。</p>
+        <button class="act" id="feedBtn" type="button">喂一口 →</button>
+      </div>
+      <div class="glass fun reveal">
+        <h3>无聊按钮</h3>
+        <p class="result" id="boreText">据说按满 10 次，它会开始说怪话。</p>
+        <button class="act" id="boreBtn" type="button">按我试试 →</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="dom">LIZIRAN.DPDNS.ORG</div>
+    <div class="cp">© 2026 ZANE LI</div>
+  </footer>
+</div>
+
+<!-- 底部文字导航（玻璃） -->
+<nav class="dock">
+  <a href="#top">首页</a><span class="dot"></span>
+  <a href="https://lzranbaby.github.io/jelly-view/">观影</a><span class="dot"></span>
+  <a href="#fun">玩乐</a><span class="dot"></span>
+  <a href="https://github.com/LzRanbaby">GitHub</a>
+</nav>
+
+<script>
+  (function(){
+    var h = new Date().getHours(), t = "欢迎来到";
+    if (h < 6 || h >= 23) t = "夜深了，欢迎来到";
+    else if (h < 11) t = "早上好，欢迎来到";
+    else if (h < 14) t = "中午好，欢迎来到";
+    else if (h < 18) t = "下午好，欢迎来到";
+    else t = "晚上好，欢迎来到";
+    document.getElementById("greet").textContent = t;
+  })();
+  // 玻璃镜面扫光跟随手指/鼠标
+  (function(){
+    document.querySelectorAll(".glass").forEach(function(el){
+      el.addEventListener("pointermove", function(e){
+        var r = el.getBoundingClientRect();
+        el.style.setProperty("--mx", ((e.clientX - r.left) / r.width * 100) + "%");
+      });
+    });
+  })();
+  (function(){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(en){ if (en.isIntersecting){ en.target.classList.add("in"); io.unobserve(en.target); } });
+    }, {threshold:.1});
+    document.querySelectorAll(".reveal").forEach(function(el){ io.observe(el); });
+  })();
+  // 好玩角落
+  (function(){
+    var fortunes = [
+      "大吉：今天适合薅羊毛，手气正旺，别贪杯就行。",
+      "中吉：适合把拖了很久的小事办掉，办完一身轻。",
+      "小吉：适合给小猫加餐，它开心你也开心。",
+      "平签：宜躺平回血，明天再战也不迟。",
+      "奇签：今天会刷到一个有用的新玩意儿，记得存下来。",
+      "隐藏签：出门记得看电量，别问我怎么知道的。"
+    ];
+    var fb = document.getElementById("fortuneBtn"), ft = document.getElementById("fortuneText");
+    if (fb) fb.addEventListener("click", function(){
+      ft.textContent = fortunes[Math.floor(Math.random() * fortunes.length)];
+    });
+    var cat = document.getElementById("catFace"), feedT = document.getElementById("feedText"), feedB = document.getElementById("feedBtn");
+    var n = parseInt(localStorage.getItem("cat_feed_count") || "0", 10);
+    function catSay(){
+      if (n === 0){ cat.textContent = "🐱"; feedT.textContent = "小猫正在等投喂。"; }
+      else if (n < 3){ cat.textContent = "😺"; feedT.textContent = "已投喂 " + n + " 口，小猫：就这？再来。"; }
+      else if (n < 8){ cat.textContent = "😻"; feedT.textContent = "已投喂 " + n + " 口，小猫开始蹭你了。"; }
+      else if (n < 15){ cat.textContent = "🤤"; feedT.textContent = "已投喂 " + n + " 口，小猫吃得很认真。"; }
+      else { cat.textContent = "😴"; feedT.textContent = "已投喂 " + n + " 口，小猫吃饱睡了，别吵它。"; }
+    }
+    if (feedB){ catSay(); feedB.addEventListener("click", function(){ n++; localStorage.setItem("cat_feed_count", String(n)); catSay(); }); }
+    var boreB = document.getElementById("boreBtn"), boreT = document.getElementById("boreText"), c = 0;
+    var lines = ["嗯，你按了。", "又按。", "它开始好奇你能按多久。", "第 5 次了，手不酸吗？", "继续，我在数着呢。", "第 8 次，毅力可嘉。", "第 9 次……", "第 10 次！彩蛋：你今天的耐心额度 +1。", "好了好了，再按就只是按了。", "它已经没话说了，你赢了。"];
+    if (boreB) boreB.addEventListener("click", function(){ c++; boreT.textContent = lines[Math.min(c - 1, lines.length - 1)]; });
+  })();
+</script>
+</body>
+</html>
